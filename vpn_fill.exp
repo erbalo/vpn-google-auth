@@ -1,0 +1,19 @@
+#!/usr/bin/expect
+log_user            0
+set timeout         0 
+
+set CN_USER         [lindex $argv 0]
+set CN_PWD          [lindex $argv 1]
+set CN_CODE         [lindex $argv 2]
+set CONFIG_FILE     [lindex $argv 3]
+set VERBOSE_OPT     3
+set LVL_SECURITY    2
+
+spawn sudo openvpn --verb $VERBOSE_OPT --script-security $LVL_SECURITY --config $CONFIG_FILE
+expect "*.sername:\r"
+send "$CN_USER\r"
+expect "*.assword:\r"
+send "$CN_PWD\r"
+expect "*.esponse:\r"
+send "$CN_CODE\r"
+interact
